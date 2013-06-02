@@ -36,7 +36,7 @@ float4 main(PixelInputType input) : SV_TARGET
 	float terrainHeight = multifractalPos * fBmPos * 2.0f + fBmPos * 3.0f;
 	float3 terrainPosition = spherePosition * (6371.0f + terrainHeight * 7.2f);
 
-	return float4(terrainPosition, terrainHeight);
+	//return float4(terrainPosition, terrainHeight);
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	//////////////////////////////////////////  Vanilla Noise  ////////////////////////////////////////////////////////
@@ -75,13 +75,15 @@ float4 main(PixelInputType input) : SV_TARGET
 	else
 		noiseColor = float4(1.0f, 1.0f, 1.0f, 1.0f);
 
-	float4 outColor;
+	return noiseColor;
 
-	float3 normal = normalize(cross(ddx(input.worldPosition), ddy(input.worldPosition)));
-	//float3 normal = normalize(normalize(input.spherePosition) - normalize(gradient));
-	//float3 normal = normalize(gradient + float3(1.0f, 1.0f, 1.0f));
-	float3 lightPosition = float3(0.0f, 8000.0f, 0.0f);
-	outColor = saturate(max(dot(normal, normalize(lightPosition - input.worldPosition)), 0.25f));
-
-	return noiseColor * outColor;
+	//float4 outColor;
+//
+	//float3 normal = normalize(cross(ddx(input.worldPosition), ddy(input.worldPosition)));
+	////float3 normal = normalize(normalize(input.spherePosition) - normalize(gradient));
+	////float3 normal = normalize(gradient + float3(1.0f, 1.0f, 1.0f));
+	//float3 lightPosition = float3(0.0f, 8000.0f, 0.0f);
+	//outColor = saturate(max(dot(normal, normalize(lightPosition - input.worldPosition)), 0.25f));
+//
+	//return noiseColor * outColor;
 }

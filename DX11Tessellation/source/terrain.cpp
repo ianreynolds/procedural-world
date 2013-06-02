@@ -353,12 +353,12 @@ void Terrain::Render(Camera* camera, XMFLOAT4X4 viewMatrix, XMFLOAT4X4 projectio
 	TraverseQuadTree(instanceVectorZ, frustum, cameraPosition, XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f), 1.0f, lodDistances[1], 1, Terrain::posZ);
 	TraverseQuadTree(instanceVectorZ, frustum, cameraPosition, XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f), 1.0f, lodDistances[1], 1, Terrain::negZ);
 
-	// clear the render texture
-	float clearColor[4] = { 0.0f, 0.125f, 0.3f, 1.0f };
-	deviceContext->ClearRenderTargetView(positionBufferRenderTexture->GetRenderTargetView(), clearColor);
+	//// clear the render texture
+	//float clearColor[4] = { 0.0f, 0.125f, 0.3f, 1.0f };
+	//deviceContext->ClearRenderTargetView(positionBufferRenderTexture->GetRenderTargetView(), clearColor);
 
-	// set the position buffer texture 
-	d3d11Renderer->SetRenderTargetView(positionBufferRenderTexture->GetRenderTargetView());
+	//// set the position buffer texture 
+	//d3d11Renderer->SetRenderTargetView(positionBufferRenderTexture->GetRenderTargetView());
 
 	GPUInstDistContPerFrameParameter viewParameters(viewMatrix, projectionMatrix, camera->transform->GetPosition());
 	gpuInstancedShader->SetPerFrameBuffers(deviceContext, &viewParameters);
@@ -414,21 +414,21 @@ void Terrain::Render(Camera* camera, XMFLOAT4X4 viewMatrix, XMFLOAT4X4 projectio
 
 	if(wireframe)
 	{
-		d3d11Renderer->SetSolidFill();
-	}
-
-	d3d11Renderer->SetRenderTargetView(nullptr);
-
-	LightingPassPerFrameParameter lightingParameters(positionBufferRenderTexture->GetShaderResourceView());
-	lightingPassShader->SetPerFrameBuffers(deviceContext, &lightingParameters);
-
-	RenderScreenQuad();
-	lightingPassShader->RenderInstanced(deviceContext, 4, 0, 0);
-
-	if(wireframe)
-	{
 		d3d11Renderer->SetWireframeFill();
 	}
+
+	//d3d11Renderer->SetRenderTargetView(nullptr);
+
+	//LightingPassPerFrameParameter lightingParameters(positionBufferRenderTexture->GetShaderResourceView());
+	//lightingPassShader->SetPerFrameBuffers(deviceContext, &lightingParameters);
+
+	//RenderScreenQuad();
+	//lightingPassShader->RenderInstanced(deviceContext, 4, 0, 0);
+
+	//if(wireframe)
+	//{
+	//	d3d11Renderer->SetWireframeFill();
+	//}
 }
 
 // NOTE: pass 0.0f into LODDistance for final LOD
