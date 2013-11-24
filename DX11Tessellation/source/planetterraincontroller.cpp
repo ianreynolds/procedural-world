@@ -1,12 +1,12 @@
-#include "terraincontroller.h"
-#include "terrain.h"
+#include "PlanetTerrainController.h"
+#include "planetterrain.h"
 
-TerrainController::TerrainController(Terrain* terr)
+PlanetTerrainController::PlanetTerrainController(PlanetTerrain* terr)
 	: terrain(terr)
 {
 }
 
-void TerrainController::Update(double deltaTime)
+void PlanetTerrainController::Update(double deltaTime)
 {
 	if(inputManager->IsKeyPressed(DIK_F))
 	{

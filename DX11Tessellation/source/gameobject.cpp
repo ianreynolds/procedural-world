@@ -121,7 +121,7 @@ void GameObject::AddComponent(ComponentEnums::ComponentType type, ObjectComponen
 		camera = dynamic_cast<Camera*>(component);
 		break;
 	case ComponentEnums::Terrain:
-		terrain = dynamic_cast<Terrain*>(component);
+		terrain = dynamic_cast<PlanetTerrain*>(component);
 		break;
 	}
 }

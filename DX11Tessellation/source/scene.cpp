@@ -92,7 +92,7 @@ void Scene::UpdateRenderLists()
 		}
 		else
 		{
-			Terrain* terrainComponent = (*it)->terrain;
+			PlanetTerrain* terrainComponent = (*it)->terrain;
 			if(terrainComponent)
 			{
 				renderer->AddRenderableTerrain(terrainComponent);

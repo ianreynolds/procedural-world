@@ -3,11 +3,11 @@
 
 #include "controller.h"
 
-class PlanarCameraController : public Controller
+class FlyCameraController : public Controller
 {
 public:
-	PlanarCameraController(float cameraSpeed, float rotateSpeed);
-	~PlanarCameraController();
+	FlyCameraController(float cameraSpeed, float rotateSpeed);
+	~FlyCameraController();
 
 	void Update(double deltaTime);
 private:

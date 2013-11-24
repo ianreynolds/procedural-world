@@ -3,16 +3,16 @@
 
 #include "controller.h"
 
-class Terrain;
+class PlanetTerrain;
 
-class TerrainController : public Controller
+class PlanetTerrainController : public Controller
 {
 public:
-	TerrainController(Terrain* terr);
+	PlanetTerrainController(PlanetTerrain* terr);
 
 	void Update(double deltaTime);
 private:
-	Terrain* terrain;
+	PlanetTerrain* terrain;
 };
 
 #endif

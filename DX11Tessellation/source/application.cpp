@@ -55,20 +55,20 @@ bool Application::Init(HINSTANCE hInstance)
 	}
 
 	// Initialise scenes
-	Scene* terrainScene = new Scene(renderer);
-	sceneList.push_back(terrainScene);
+	Scene* planetTerrainScene = new Scene(renderer);
+	sceneList.push_back(planetTerrainScene);
 
-	Scene::SetCurrentScene(terrainScene);
+	Scene::SetCurrentScene(planetTerrainScene);
 
 	GameObject* terrainObject = new GameObject();
 
-	Terrain* terrainComponent = new Terrain(renderer->GetDevice(), renderer->GetDeviceContext(), renderer,
+	PlanetTerrain* planetTerrainComponent = new PlanetTerrain(renderer->GetDevice(), renderer->GetDeviceContext(), renderer,
 		renderer->GetInstancedGPUTerrainShader(), renderer->GetLightingPassShader(), renderer->GetPositionBufferTexture());
 
-	TerrainController* terrainController = new TerrainController(terrainComponent);
+	PlanetTerrainController* planetTerrainController = new PlanetTerrainController(planetTerrainComponent);
 
-	terrainObject->AddComponent(ComponentEnums::Terrain, terrainComponent);
-	terrainObject->AddComponent(ComponentEnums::Controller, terrainController);
+	terrainObject->AddComponent(ComponentEnums::Terrain, planetTerrainComponent);
+	terrainObject->AddComponent(ComponentEnums::Controller, planetTerrainController);
 	
 	GameObject* renderControllerObject = new GameObject();
 
@@ -79,24 +79,6 @@ bool Application::Init(HINSTANCE hInstance)
 	GameObject* planarCameraObject = new GameObject();
 	planarCameraObject->transform->SetLookAt(XMFLOAT3(0.0f, 18000.0f, 0.0f), XMFLOAT3(0.0f, 0.0f, 0.0f), XMFLOAT3(0.0f, 0.0f, -1.0f));
 
-	//XMFLOAT3 initPos(0.4968f, 6464.7207f, -800.61798f);
-	//XMFLOAT3 initDirection(0.80604f, -0.28506f, 0.51869f);
-	//XMFLOAT3 initUp(0.3107f, 0.94968f, 0.03918f);
-
-	//XMFLOAT3 initPos(769.08009f, 5996.9026f, -2032.1331f);
-	//XMFLOAT3 initDirection(-0.69707f, -0.0465f, -0.71558f);
-	//XMFLOAT3 initUp(0.20794f, 0.94195f, -0.26377f);
-	
-	//XMFLOAT3 initPos(9120.9375f, 17032.799f, -9933.9814f);
-	//XMFLOAT3 initDirection(-0.4435226f, -0.76940453f, 0.45967901);
-	//XMFLOAT3 initUp(-0.16439782f, -0.43434083f, -0.88561803);
-	
-	//XMFLOAT3 initPos(598.89276f, 5922.8315f, -2285.344f);
-	//XMFLOAT3 initDirection(-0.98602802f, 0.14665298f, -0.078782097f);
-	//XMFLOAT3 initUp(0.16498782, 0.92392606f, -0.34512571);
-
-	//planarCameraObject->transform->SetLookTo(initPos, initDirection, initUp);
-
 	D3D11_VIEWPORT viewport;
 	viewport.Width = (float)renderer->GetScreenWidth();
 	viewport.Height = (float)renderer->GetScreenHeight();
@@ -105,10 +87,10 @@ bool Application::Init(HINSTANCE hInstance)
 	viewport.TopLeftX = 0.0f;
 	viewport.TopLeftY = 0.0f;
 
-	PlanarCameraController* planarCameraController = new PlanarCameraController(500.0f, 0.6f);
+	FlyCameraController* flyCameraController = new FlyCameraController(500.0f, 0.6f);
 	Camera* planarCamera = new Camera(viewport, XM_PIDIV4, viewport.Width / viewport.Height, 0.001f, 50000.0f);
 
-	planarCameraObject->AddComponent(ComponentEnums::Controller, planarCameraController);
+	planarCameraObject->AddComponent(ComponentEnums::Controller, flyCameraController);
 	planarCameraObject->AddComponent(ComponentEnums::Camera, planarCamera);
 
 	GameObject* topDownCameraObject = new GameObject();

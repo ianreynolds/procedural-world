@@ -157,9 +157,10 @@ bool D3D11Renderer::InitDevice(HWND windowHandle)
 
 	// Set the device flags
 	unsigned int deviceFlags = 0;
-#ifdef _DEBUG
-	deviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
-#endif
+	// TODO: figure out why the debug flag is causing a failure in creating device / swap chain
+//#ifdef _DEBUG
+//	deviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
+//#endif
 	
 	// Set required driver types
 	D3D_DRIVER_TYPE driverTypes[] =
@@ -437,7 +438,7 @@ void D3D11Renderer::AddRenderableMesh(Mesh* mesh)
 	renderableMeshes.push_back(mesh);
 }
 
-void D3D11Renderer::AddRenderableTerrain(Terrain* terrain)
+void D3D11Renderer::AddRenderableTerrain(PlanetTerrain* terrain)
 {
 	renderableTerrains.push_back(terrain);
 }

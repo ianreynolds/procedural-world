@@ -10,11 +10,11 @@
 #include "mesh.h"
 #include "material.h"
 #include "camera.h"
-#include "terrain.h"
+#include "planetterrain.h"
 
 #include "patchmesh.h"
-#include "planarcameracontroller.h"
-#include "terraincontroller.h"
+#include "flycameracontroller.h"
+#include "planetterraincontroller.h"
 #include "rendercontroller.h"
 
 using namespace std;
@@ -51,7 +51,7 @@ public:
 	Controller* controller;
 	Material* material;
 	Camera* camera;
-	Terrain* terrain;
+	PlanetTerrain* terrain;
 private:
 	map<ComponentEnums::ComponentType, ObjectComponent*> componentMap;
 	vector<GameObject*> childObjects;

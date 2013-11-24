@@ -1,7 +1,7 @@
 #include <list>
 #include <stack>
 
-#include "terrain.h"
+#include "PlanetTerrain.h"
 #include "vertex.h"
 #include "camera.h"
 #include "transform.h"
@@ -35,16 +35,16 @@ struct LODInfo
 float lodDistances[5] = { 2400.0f, 600.0f, 40.0f, 5.0f, 0.0f };
 float lodIncrements[4] = { 450.0f, 140.0f, 8.75f, 1.0f };
 
-TerrainQuadTreeNode* terrainQuadTreePosX;
-TerrainQuadTreeNode* terrainQuadTreeNegX;
-TerrainQuadTreeNode* terrainQuadTreePosY;
-TerrainQuadTreeNode* terrainQuadTreeNegY;
-TerrainQuadTreeNode* terrainQuadTreePosZ;
-TerrainQuadTreeNode* terrainQuadTreeNegZ;
+PlanetTerrainQuadTreeNode* terrainQuadTreePosX;
+PlanetTerrainQuadTreeNode* terrainQuadTreeNegX;
+PlanetTerrainQuadTreeNode* terrainQuadTreePosY;
+PlanetTerrainQuadTreeNode* terrainQuadTreeNegY;
+PlanetTerrainQuadTreeNode* terrainQuadTreePosZ;
+PlanetTerrainQuadTreeNode* terrainQuadTreeNegZ;
 
 //////////////////QUADTREE//////////////////
 
-Terrain::Terrain(ID3D11Device* device, ID3D11DeviceContext* context, D3D11Renderer* renderer, Shader* instancedGPUTerrainShader, Shader* lightingShader, RenderTexture* posBufferRenderTexture)
+PlanetTerrain::PlanetTerrain(ID3D11Device* device, ID3D11DeviceContext* context, D3D11Renderer* renderer, Shader* instancedGPUTerrainShader, Shader* lightingShader, RenderTexture* posBufferRenderTexture)
 	: useSphereCulling(false), useAABBCulling(true), useDistanceCulling(true), device(device), deviceContext(context), d3d11Renderer(renderer),
 	gpuInstancedShader(instancedGPUTerrainShader), lightingPassShader(lightingShader), positionBufferRenderTexture(posBufferRenderTexture),
 	gpuVertexBuffer(nullptr), instanceBuffer(nullptr)
@@ -215,7 +215,7 @@ Terrain::Terrain(ID3D11Device* device, ID3D11DeviceContext* context, D3D11Render
 	//////////////////QUADTREE//////////////////
 	
 	// TODO: delete trees at some point...
-	terrainQuadTreePosY = new TerrainQuadTreeNode[342];
+	terrainQuadTreePosY = new PlanetTerrainQuadTreeNode[342];
 
 	int treeIterator = 0;
 	int childIterator = 0;
@@ -255,11 +255,11 @@ Terrain::Terrain(ID3D11Device* device, ID3D11DeviceContext* context, D3D11Render
 		++treeIterator;
 	}
 
-	terrainQuadTreePosX = new TerrainQuadTreeNode[342];
-	terrainQuadTreeNegX = new TerrainQuadTreeNode[342];
-	terrainQuadTreeNegY = new TerrainQuadTreeNode[342];
-	terrainQuadTreePosZ = new TerrainQuadTreeNode[342];
-	terrainQuadTreeNegZ = new TerrainQuadTreeNode[342];
+	terrainQuadTreePosX = new PlanetTerrainQuadTreeNode[342];
+	terrainQuadTreeNegX = new PlanetTerrainQuadTreeNode[342];
+	terrainQuadTreeNegY = new PlanetTerrainQuadTreeNode[342];
+	terrainQuadTreePosZ = new PlanetTerrainQuadTreeNode[342];
+	terrainQuadTreeNegZ = new PlanetTerrainQuadTreeNode[342];
 
 	XMFLOAT4X4 transformMatrix;
 
@@ -281,7 +281,7 @@ Terrain::Terrain(ID3D11Device* device, ID3D11DeviceContext* context, D3D11Render
 	//////////////////QUADTREE//////////////////
 }
 
-Terrain::~Terrain()
+PlanetTerrain::~PlanetTerrain()
 {
 	if(gpuVertexBuffer)
 	{
@@ -308,9 +308,9 @@ Terrain::~Terrain()
 	}
 }
 
-void Terrain::CopyQuadTree(TerrainQuadTreeNode* destTree, TerrainQuadTreeNode* sourceTree, XMFLOAT4X4 transformMatrix)
+void PlanetTerrain::CopyQuadTree(PlanetTerrainQuadTreeNode* destTree, PlanetTerrainQuadTreeNode* sourceTree, XMFLOAT4X4 transformMatrix)
 {
-	memcpy(destTree, sourceTree, sizeof(TerrainQuadTreeNode) * 342);
+	memcpy(destTree, sourceTree, sizeof(PlanetTerrainQuadTreeNode) * 342);
 
 	for(int i = 0; i < 342; ++i)
 	{
@@ -331,7 +331,7 @@ void Terrain::CopyQuadTree(TerrainQuadTreeNode* destTree, TerrainQuadTreeNode* s
 	}
 }
 
-void Terrain::Render(Camera* camera, XMFLOAT4X4 viewMatrix, XMFLOAT4X4 projectionMatrix)
+void PlanetTerrain::Render(Camera* camera, XMFLOAT4X4 viewMatrix, XMFLOAT4X4 projectionMatrix)
 {
 	vector<PatchInstanceData> instanceVectorX;
 	vector<PatchInstanceData> instanceVectorY;
@@ -344,14 +344,14 @@ void Terrain::Render(Camera* camera, XMFLOAT4X4 viewMatrix, XMFLOAT4X4 projectio
 	Metrics::highestLOD = 0;
 	Metrics::quadsInstances = 0;
 
-	TraverseQuadTree(instanceVectorX, frustum, cameraPosition, XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f), 1.0f, lodDistances[1], 1, Terrain::posX);
-	TraverseQuadTree(instanceVectorX, frustum, cameraPosition, XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f), 1.0f, lodDistances[1], 1, Terrain::negX);
+	TraverseQuadTree(instanceVectorX, frustum, cameraPosition, XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f), 1.0f, lodDistances[1], 1, PlanetTerrain::posX);
+	TraverseQuadTree(instanceVectorX, frustum, cameraPosition, XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f), 1.0f, lodDistances[1], 1, PlanetTerrain::negX);
 
-	TraverseQuadTree(instanceVectorY, frustum, cameraPosition, XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f), 1.0f, lodDistances[1], 1, Terrain::posY);
-	TraverseQuadTree(instanceVectorY, frustum, cameraPosition, XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f), 1.0f, lodDistances[1], 1, Terrain::negY);
+	TraverseQuadTree(instanceVectorY, frustum, cameraPosition, XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f), 1.0f, lodDistances[1], 1, PlanetTerrain::posY);
+	TraverseQuadTree(instanceVectorY, frustum, cameraPosition, XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f), 1.0f, lodDistances[1], 1, PlanetTerrain::negY);
 
-	TraverseQuadTree(instanceVectorZ, frustum, cameraPosition, XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f), 1.0f, lodDistances[1], 1, Terrain::posZ);
-	TraverseQuadTree(instanceVectorZ, frustum, cameraPosition, XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f), 1.0f, lodDistances[1], 1, Terrain::negZ);
+	TraverseQuadTree(instanceVectorZ, frustum, cameraPosition, XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f), 1.0f, lodDistances[1], 1, PlanetTerrain::posZ);
+	TraverseQuadTree(instanceVectorZ, frustum, cameraPosition, XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f), 1.0f, lodDistances[1], 1, PlanetTerrain::negZ);
 
 	//// clear the render texture
 	//float clearColor[4] = { 0.0f, 0.125f, 0.3f, 1.0f };
@@ -432,34 +432,34 @@ void Terrain::Render(Camera* camera, XMFLOAT4X4 viewMatrix, XMFLOAT4X4 projectio
 }
 
 // NOTE: pass 0.0f into LODDistance for final LOD
-void Terrain::TraverseQuadTree(vector<PatchInstanceData>& instanceVector, const FrustumPlanes& frustum, const XMVECTOR& cameraPosition, const XMVECTOR& offset, float scale, float lodDistance, int lod, CubeFace face)
+void PlanetTerrain::TraverseQuadTree(vector<PatchInstanceData>& instanceVector, const FrustumPlanes& frustum, const XMVECTOR& cameraPosition, const XMVECTOR& offset, float scale, float lodDistance, int lod, CubeFace face)
 {
 	++Metrics::treeTraversals;
 	Metrics::highestLOD = max(lod, Metrics::highestLOD);
 
 	// TODO: could make these class members to save on making them every time
-	list<TerrainQuadTreeNode*> nodeList;
+	list<PlanetTerrainQuadTreeNode*> nodeList;
 	stack<LODInfo> lodStack;
 
-	TerrainQuadTreeNode* currentNode = nullptr;
+	PlanetTerrainQuadTreeNode* currentNode = nullptr;
 	switch(face)
 	{
-	case Terrain::posX:
+	case PlanetTerrain::posX:
 		nodeList.push_back(&terrainQuadTreePosX[0]);
 		break;
-	case Terrain::negX:
+	case PlanetTerrain::negX:
 		nodeList.push_back(&terrainQuadTreeNegX[0]);
 		break;
-	case Terrain::posY:
+	case PlanetTerrain::posY:
 		nodeList.push_back(&terrainQuadTreePosY[0]);
 		break;
-	case Terrain::negY:
+	case PlanetTerrain::negY:
 		nodeList.push_back(&terrainQuadTreeNegY[0]);
 		break;
-	case Terrain::posZ:
+	case PlanetTerrain::posZ:
 		nodeList.push_back(&terrainQuadTreePosZ[0]);
 		break;
-	case Terrain::negZ:
+	case PlanetTerrain::negZ:
 		nodeList.push_back(&terrainQuadTreeNegZ[0]);
 		break;
 	}
@@ -487,22 +487,22 @@ void Terrain::TraverseQuadTree(vector<PatchInstanceData>& instanceVector, const 
 
 		switch(face)
 		{
-		case Terrain::posX:
+		case PlanetTerrain::posX:
 			localCentre = XMLoadFloat3(&(currentNode->centre)) * XMVectorSet(1.0f, scale, scale, 0.0f) + offset;
 			break;
-		case Terrain::negX:
+		case PlanetTerrain::negX:
 			localCentre = XMLoadFloat3(&(currentNode->centre)) * XMVectorSet(1.0f, scale, scale, 0.0f) + offset;
 			break;
-		case Terrain::posY:
+		case PlanetTerrain::posY:
 			localCentre = XMLoadFloat3(&(currentNode->centre)) * XMVectorSet(scale, 1.0f, scale, 0.0f) + offset;
 			break;
-		case Terrain::negY:
+		case PlanetTerrain::negY:
 			localCentre = XMLoadFloat3(&(currentNode->centre)) * XMVectorSet(scale, 1.0f, scale, 0.0f) + offset;
 			break;
-		case Terrain::posZ:
+		case PlanetTerrain::posZ:
 			localCentre = XMLoadFloat3(&(currentNode->centre)) * XMVectorSet(scale, scale, 1.0f, 0.0f) + offset;
 			break;
-		case Terrain::negZ:
+		case PlanetTerrain::negZ:
 			localCentre = XMLoadFloat3(&(currentNode->centre)) * XMVectorSet(scale, scale, 1.0f, 0.0f) + offset;
 			break;
 		}
@@ -518,7 +518,7 @@ void Terrain::TraverseQuadTree(vector<PatchInstanceData>& instanceVector, const 
 		XMVECTOR lodPointVectors[9];
 		lodPointVectors[0] = localCentre;
 
-		if(face == Terrain::posX || face == Terrain::negX)
+		if(face == PlanetTerrain::posX || face == PlanetTerrain::negX)
 		{
 			lodPointVectors[1] = localCentre + XMVectorSet(0.0f, halfSize, halfSize, 0.0f);
 			lodPointVectors[2] = localCentre + XMVectorSet(0.0f, -halfSize, halfSize, 0.0f);
@@ -529,7 +529,7 @@ void Terrain::TraverseQuadTree(vector<PatchInstanceData>& instanceVector, const 
 			lodPointVectors[7] = localCentre + XMVectorSet(0.0f, 0.0f, halfSize, 0.0f);
 			lodPointVectors[8] = localCentre + XMVectorSet(0.0f, -halfSize, 0.0f, 0.0f);
 		}
-		else if(face == Terrain::posY || face == Terrain::negY)
+		else if(face == PlanetTerrain::posY || face == PlanetTerrain::negY)
 		{
 			lodPointVectors[1] = localCentre + XMVectorSet(halfSize, 0.0f, halfSize, 0.0f);
 			lodPointVectors[2] = localCentre + XMVectorSet(-halfSize, 0.0f, halfSize, 0.0f);
@@ -540,7 +540,7 @@ void Terrain::TraverseQuadTree(vector<PatchInstanceData>& instanceVector, const 
 			lodPointVectors[7] = localCentre + XMVectorSet(0.0f, 0.0f, halfSize, 0.0f);
 			lodPointVectors[8] = localCentre + XMVectorSet(-halfSize, 0.0f, 0.0f, 0.0f);
 		}
-		else if(face == Terrain::posZ || face == Terrain::negZ)
+		else if(face == PlanetTerrain::posZ || face == PlanetTerrain::negZ)
 		{
 			lodPointVectors[1] = localCentre + XMVectorSet(halfSize, halfSize, 0.0f, 0.0f);
 			lodPointVectors[2] = localCentre + XMVectorSet(-halfSize, halfSize, 0.0f, 0.0f);
@@ -698,11 +698,11 @@ void Terrain::TraverseQuadTree(vector<PatchInstanceData>& instanceVector, const 
 							XMFLOAT3 newOffset;
 							XMStoreFloat3(&newOffset, localCentre);
 
-							if(face == Terrain::posX || face == Terrain::negX)
+							if(face == PlanetTerrain::posX || face == PlanetTerrain::negX)
 								newOffset.x = 0.0f;
-							else if(face == Terrain::posY || face == Terrain::negY)
+							else if(face == PlanetTerrain::posY || face == PlanetTerrain::negY)
 								newOffset.y = 0.0f;
-							else if(face == Terrain::posZ || face == Terrain::negZ)
+							else if(face == PlanetTerrain::posZ || face == PlanetTerrain::negZ)
 								newOffset.z = 0.0f;
 
 							lodStack.push(LODInfo(newOffset, scale / 16.0f, lodDistances[lod + 1]));
@@ -718,22 +718,22 @@ void Terrain::TraverseQuadTree(vector<PatchInstanceData>& instanceVector, const 
 
 							switch(face)
 							{
-							case Terrain::posX:
+							case PlanetTerrain::posX:
 								instanceScale = XMFLOAT3(1.0f, scale, scale);
 								break;
-							case Terrain::negX:
+							case PlanetTerrain::negX:
 								instanceScale = XMFLOAT3(1.0f, -scale, scale);
 								break;
-							case Terrain::posY:
+							case PlanetTerrain::posY:
 								instanceScale = XMFLOAT3(scale, 1.0f, scale);
 								break;
-							case Terrain::negY:
+							case PlanetTerrain::negY:
 								instanceScale = XMFLOAT3(-scale, 1.0f, scale);
 								break;
-							case Terrain::posZ:
+							case PlanetTerrain::posZ:
 								instanceScale = XMFLOAT3(scale, scale, 1.0f);
 								break;
-							case Terrain::negZ:
+							case PlanetTerrain::negZ:
 								instanceScale = XMFLOAT3(scale, -scale, 1.0f);
 								break;
 							}
@@ -757,7 +757,7 @@ void Terrain::TraverseQuadTree(vector<PatchInstanceData>& instanceVector, const 
 	}
 }
 
-void Terrain::PointToSphere(XMVECTOR& point, float radius)
+void PlanetTerrain::PointToSphere(XMVECTOR& point, float radius)
 {
 	XMFLOAT3 vertexPosition;
 	XMStoreFloat3(&vertexPosition, point);
@@ -774,7 +774,7 @@ void Terrain::PointToSphere(XMVECTOR& point, float radius)
 	point *= radius;
 }
 
-float Terrain::AABBDistance(float* extremities, const XMFLOAT3& position, XMFLOAT3* tolerance)
+float PlanetTerrain::AABBDistance(float* extremities, const XMFLOAT3& position, XMFLOAT3* tolerance)
 {
 	if(tolerance)
 	{
@@ -822,7 +822,7 @@ float Terrain::AABBDistance(float* extremities, const XMFLOAT3& position, XMFLOA
 	return absDistance;
 }
 
-void Terrain::RenderGPUInstanceVector(const vector<PatchInstanceData>& instanceVector, XMFLOAT4X4 viewMatrix, XMFLOAT4X4 projectionMatrix, XMFLOAT3 cameraPosition)
+void PlanetTerrain::RenderGPUInstanceVector(const vector<PatchInstanceData>& instanceVector, XMFLOAT4X4 viewMatrix, XMFLOAT4X4 projectionMatrix, XMFLOAT3 cameraPosition)
 {
 	D3D11_MAPPED_SUBRESOURCE mappedSubresource;
 
@@ -837,7 +837,7 @@ void Terrain::RenderGPUInstanceVector(const vector<PatchInstanceData>& instanceV
 	gpuInstancedShader->RenderInstanced(deviceContext, instanceVector.size(), 8, 0);
 }
 
-void Terrain::RenderGPUPatchInstances()
+void PlanetTerrain::RenderGPUPatchInstances()
 {	
 	// Set vertex buffer strides and offsets
 	unsigned int strides[2] = { sizeof(Vertex), sizeof(PatchInstanceData) };
@@ -848,7 +848,7 @@ void Terrain::RenderGPUPatchInstances()
 	deviceContext->IASetVertexBuffers(0, 2, bufferPointers, strides, offsets);
 }
 
-void Terrain::RenderScreenQuad()
+void PlanetTerrain::RenderScreenQuad()
 {
 	unsigned int stride = sizeof(VertexTex);
 	unsigned int offset = 0;
@@ -858,32 +858,32 @@ void Terrain::RenderScreenQuad()
 	deviceContext->IASetIndexBuffer(screenQuadIndexBuffer, DXGI_FORMAT_R32_UINT, 0);
 }
 
-void Terrain::EnableSphereCulling()
+void PlanetTerrain::EnableSphereCulling()
 {
 	useSphereCulling = true;
 }
 
-void Terrain::DisableSphereCulling()
+void PlanetTerrain::DisableSphereCulling()
 {
 	useSphereCulling = false;
 }
 
-void Terrain::EnableAABBCulling()
+void PlanetTerrain::EnableAABBCulling()
 {
 	useAABBCulling = true;
 }
 
-void Terrain::DisableAABBCulling()
+void PlanetTerrain::DisableAABBCulling()
 {
 	useAABBCulling = false;
 }
 
-void Terrain::EnableDistanceCulling()
+void PlanetTerrain::EnableDistanceCulling()
 {
 	useDistanceCulling = true;
 }
 
-void Terrain::DisableDistanceCulling()
+void PlanetTerrain::DisableDistanceCulling()
 {
 	useDistanceCulling = false;
 }

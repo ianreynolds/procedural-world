@@ -1,4 +1,4 @@
-#include "planarcameracontroller.h"
+#include "FlyCameraController.h"
 
 #include <Windows.h>
 #include "transform.h"
@@ -7,16 +7,16 @@
 #include "metrics.h"
 #include "TerrainGenerator.h"
 
-PlanarCameraController::PlanarCameraController(float cameraSpeed, float rotateSpeed)
+FlyCameraController::FlyCameraController(float cameraSpeed, float rotateSpeed)
 	: speed(cameraSpeed), rotSpeed(rotateSpeed)
 {
 }
 
-PlanarCameraController::~PlanarCameraController()
+FlyCameraController::~FlyCameraController()
 {
 }
 
-void PlanarCameraController::Update(double deltaTime)
+void FlyCameraController::Update(double deltaTime)
 {
 	float originDistance;
 	XMStoreFloat(&originDistance, XMVector3Length(XMLoadFloat3(&transform->GetPosition())));

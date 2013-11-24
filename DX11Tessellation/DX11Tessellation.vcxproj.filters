@@ -28,6 +28,9 @@
     <Filter Include="Components">
       <UniqueIdentifier>{3b882f71-6fa2-44e9-a277-49343c87678b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shaders\Planet">
+      <UniqueIdentifier>{ecaf4d1d-a802-4a26-b202-51d9a7fbd490}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\main.cpp">
@@ -72,23 +75,14 @@
     <ClCompile Include="source\patchmesh.cpp">
       <Filter>Components</Filter>
     </ClCompile>
-    <ClCompile Include="source\planarcameracontroller.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
     <ClCompile Include="source\di8inputmanager.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\terrain.cpp">
-      <Filter>Engine\Headers</Filter>
     </ClCompile>
     <ClCompile Include="source\metrics.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
     <ClCompile Include="source\GPUInstDistContShader.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\terraincontroller.cpp">
-      <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="source\rendercontroller.cpp">
       <Filter>Components</Filter>
@@ -101,6 +95,15 @@
     </ClCompile>
     <ClCompile Include="source\RenderTexture.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\flycameracontroller.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="source\planetterraincontroller.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="source\planetterrain.cpp">
+      <Filter>Engine\Headers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -149,23 +152,14 @@
     <ClInclude Include="headers\patchmesh.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="headers\planarcameracontroller.h">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="headers\di8inputmanager.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\terrain.h">
-      <Filter>Engine\Source</Filter>
     </ClInclude>
     <ClInclude Include="headers\metrics.h">
       <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="headers\GPUInstDistContShader.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\terraincontroller.h">
-      <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="headers\rendercontroller.h">
       <Filter>Components</Filter>
@@ -179,40 +173,49 @@
     <ClInclude Include="headers\RenderTexture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="headers\flycameracontroller.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\planetterraincontroller.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\planetterrain.h">
+      <Filter>Engine\Source</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="fx\tess.ds.hlsl">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="fx\tess.hs.hlsl">
-      <Filter>Shaders</Filter>
+    <None Include="fx\cont.ps.hlsl">
+      <Filter>Shaders\Planet</Filter>
     </None>
     <None Include="fx\tessInstanced.vs.hlsl">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="fx\tessIndexed.vs.hlsl">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="fx\cpuTessIndexed.vs.hlsl">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="fx\cont.ps.hlsl">
-      <Filter>Shaders</Filter>
+      <Filter>Shaders\Planet</Filter>
     </None>
     <None Include="fx\cpu.vs.hlsl">
-      <Filter>Shaders</Filter>
+      <Filter>Shaders\Planet</Filter>
+    </None>
+    <None Include="fx\cpuTessIndexed.vs.hlsl">
+      <Filter>Shaders\Planet</Filter>
     </None>
     <None Include="fx\fractalHeader.hlsl">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="fx\sphereHeader.hlsl">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="fx\terrainLighting.ps.hlsl">
-      <Filter>Shaders</Filter>
+      <Filter>Shaders\Planet</Filter>
     </None>
     <None Include="fx\renderQuad.vs.hlsl">
-      <Filter>Shaders</Filter>
+      <Filter>Shaders\Planet</Filter>
+    </None>
+    <None Include="fx\sphereHeader.hlsl">
+      <Filter>Shaders\Planet</Filter>
+    </None>
+    <None Include="fx\terrainLighting.ps.hlsl">
+      <Filter>Shaders\Planet</Filter>
+    </None>
+    <None Include="fx\tess.ds.hlsl">
+      <Filter>Shaders\Planet</Filter>
+    </None>
+    <None Include="fx\tess.hs.hlsl">
+      <Filter>Shaders\Planet</Filter>
+    </None>
+    <None Include="fx\tessIndexed.vs.hlsl">
+      <Filter>Shaders\Planet</Filter>
     </None>
   </ItemGroup>
 </Project>

@@ -56,7 +56,7 @@ public:
 
 	/// <summary> adds renderable terrain to the render list </summary>
 	/// <param name="terrain"> mesh pointer to be added </param>
-	void AddRenderableTerrain(Terrain* terrain);
+	void AddRenderableTerrain(PlanetTerrain* terrain);
 
 	/// <summary> clears the camera list ready to be used by a new scene </summary>
 	void ClearCameraList();
@@ -155,7 +155,7 @@ private:
 	vector<Mesh*> renderableMeshes;
 
 	/// <summary> STD vector containing the game engine renderable terrains </summary>
-	vector<Terrain*> renderableTerrains;
+	vector<PlanetTerrain*> renderableTerrains;
 
 	/// <summary> STD vector containing the game engine cameras </summary>
 	vector<Camera*> cameras;

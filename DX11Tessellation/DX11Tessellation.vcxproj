@@ -26,13 +26,13 @@
     <ClCompile Include="source\metrics.cpp" />
     <ClCompile Include="source\objectcomponent.cpp" />
     <ClCompile Include="source\patchmesh.cpp" />
-    <ClCompile Include="source\planarcameracontroller.cpp" />
+    <ClCompile Include="source\flycameracontroller.cpp" />
     <ClCompile Include="source\rendercontroller.cpp" />
     <ClCompile Include="source\RenderTexture.cpp" />
     <ClCompile Include="source\scene.cpp" />
     <ClCompile Include="source\shader.cpp" />
-    <ClCompile Include="source\terrain.cpp" />
-    <ClCompile Include="source\terraincontroller.cpp" />
+    <ClCompile Include="source\planetterrain.cpp" />
+    <ClCompile Include="source\planetterraincontroller.cpp" />
     <ClCompile Include="source\TerrainGenerator.cpp" />
     <ClCompile Include="source\transform.cpp" />
   </ItemGroup>
@@ -52,13 +52,13 @@
     <ClInclude Include="headers\metrics.h" />
     <ClInclude Include="headers\objectcomponent.h" />
     <ClInclude Include="headers\patchmesh.h" />
-    <ClInclude Include="headers\planarcameracontroller.h" />
+    <ClInclude Include="headers\flycameracontroller.h" />
     <ClInclude Include="headers\rendercontroller.h" />
     <ClInclude Include="headers\RenderTexture.h" />
     <ClInclude Include="headers\scene.h" />
     <ClInclude Include="headers\shader.h" />
-    <ClInclude Include="headers\terrain.h" />
-    <ClInclude Include="headers\terraincontroller.h" />
+    <ClInclude Include="headers\planetterrain.h" />
+    <ClInclude Include="headers\planetterraincontroller.h" />
     <ClInclude Include="headers\TerrainGenerator.h" />
     <ClInclude Include="headers\transform.h" />
     <ClInclude Include="headers\vertex.h" />

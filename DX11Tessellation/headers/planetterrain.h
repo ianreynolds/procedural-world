@@ -23,9 +23,9 @@ struct PatchInstanceData
 	}
 };
 
-struct TerrainQuadTreeNode
+struct PlanetTerrainQuadTreeNode
 {
-	TerrainQuadTreeNode()
+	PlanetTerrainQuadTreeNode()
 		: size(0.0f)
 	{
 		childNodes[0] = NULL;
@@ -36,18 +36,18 @@ struct TerrainQuadTreeNode
 
 	XMFLOAT3 centre;
 	float size;
-	TerrainQuadTreeNode* childNodes[4];
+	PlanetTerrainQuadTreeNode* childNodes[4];
 };
 
 class Camera;
 struct FrustumPlanes;
 class D3D11Renderer;
 
-class Terrain : public ObjectComponent
+class PlanetTerrain : public ObjectComponent
 {
 public:
-	Terrain(ID3D11Device* device, ID3D11DeviceContext* context, D3D11Renderer* renderer, Shader* instancedGPUTerrainShader, Shader* lightingShader, RenderTexture* posBufferRenderTexture);
-	~Terrain();
+	PlanetTerrain(ID3D11Device* device, ID3D11DeviceContext* context, D3D11Renderer* renderer, Shader* instancedGPUTerrainShader, Shader* lightingShader, RenderTexture* posBufferRenderTexture);
+	~PlanetTerrain();
 
 	enum CubeFace { posX, negX, posY, negY, posZ, negZ };
 
@@ -56,7 +56,7 @@ public:
 	void RenderGPUPatchInstances();
 	void RenderScreenQuad();
 
-	void CopyQuadTree(TerrainQuadTreeNode* destTree, TerrainQuadTreeNode* sourceTree, XMFLOAT4X4 transformMatrix);
+	void CopyQuadTree(PlanetTerrainQuadTreeNode* destTree, PlanetTerrainQuadTreeNode* sourceTree, XMFLOAT4X4 transformMatrix);
 	void TraverseQuadTree(vector<PatchInstanceData>& instanceVector, const FrustumPlanes& frustum, const XMVECTOR& cameraPosition, const XMVECTOR& offset, float scale, float lodDistance, int lod, CubeFace face);
 	void PointToSphere(XMVECTOR& point, float radius);
 	float AABBDistance(float* extremities, const XMFLOAT3& position, XMFLOAT3* tolerance);
